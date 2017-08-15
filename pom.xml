@@ -12,8 +12,8 @@
 	</properties>
 	<repositories>
 		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
+			<id>maven.nitroventures.de</id>
+			<url>http://maven.nitroventures.de</url>
 		</repository>
 	</repositories>
 	<build>
@@ -65,9 +65,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>com.github.nitroai</groupId>
+			<groupId>ai.nitro</groupId>
 			<artifactId>bot4j</artifactId>
-			<version>-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sparkjava</groupId>
