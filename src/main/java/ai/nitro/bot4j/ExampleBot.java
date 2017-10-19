@@ -27,8 +27,9 @@ public class ExampleBot extends BotImpl {
 	protected final static Logger LOG = LogManager.getLogger(ExampleBot.class);
 
 	@Override
-	protected void onReceivePostback(final PostbackReceivePayload postback, final Participant sender) throws Exception {
-		final Participant recipient = sender;
+	protected void onReceivePostback(final PostbackReceivePayload postback) throws Exception {
+		final Participant sender = determineSender(postback);
+		final Participant recipient = determineRecipient(postback);
 
 		final String name = postback.getName();
 		final String[] payload = postback.getPayload();
@@ -36,7 +37,7 @@ public class ExampleBot extends BotImpl {
 		switch (postback.getName()) {
 		case BUTTON:
 			final String joinedPayload = StringUtils.join(payload, ", ");
-			sendText(joinedPayload, recipient);
+			sendText(joinedPayload, recipient, sender);
 			break;
 		default:
 			LOG.warn("Unknown postback {}", name);
@@ -44,9 +45,9 @@ public class ExampleBot extends BotImpl {
 	}
 
 	@Override
-	protected void onReceiveText(final TextReceivePayload receiveTextPayload, final Participant sender)
-			throws Exception {
-		final Participant recipient = sender;
+	protected void onReceiveText(final TextReceivePayload receiveTextPayload) throws Exception {
+		final Participant sender = determineSender(receiveTextPayload);
+		final Participant recipient = determineRecipient(receiveTextPayload);
 		final String text = receiveTextPayload.getText();
 
 		LOG.info("received {}", text);
@@ -56,7 +57,7 @@ public class ExampleBot extends BotImpl {
 			sendButton(text, recipient);
 			break;
 		default:
-			sendText("received '" + text, recipient);
+			sendText("received '" + text, recipient, sender);
 			break;
 		}
 	}
@@ -65,7 +66,7 @@ public class ExampleBot extends BotImpl {
 		final SendMessage sendMessage = new SendMessage();
 		sendMessage.setRecipient(recipient);
 
-		final ButtonsSendPayload buttonsSendPayload = new ButtonsSendPayload();
+		final ButtonsSendPayload buttonsSendPayload = new ButtonsSendPayload(sendMessage);
 		buttonsSendPayload.setTitle("some button");
 
 		{
@@ -79,5 +80,4 @@ public class ExampleBot extends BotImpl {
 		sendMessage.setPayload(buttonsSendPayload);
 		messageSender.send(sendMessage);
 	}
-
 }
