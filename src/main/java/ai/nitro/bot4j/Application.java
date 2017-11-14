@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016, nitro.ai
+ * Copyright (C) 2017, nitro ventures
  * All rights reserved.
  *
  * This software may be modified and distributed under the terms
